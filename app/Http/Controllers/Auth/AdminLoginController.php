@@ -45,21 +45,18 @@ class AdminLoginController extends Controller
 
 
     public function login(Request $request) {
-
         // Validate the form data
         $this->validate($request, [
             'email'   => 'required|email',
             'password' => 'required|min:6'
          ]);
-      
+     
         // Attempt to log the user in
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-
+            dd($request->all());
             if(Auth::guard('admin')->check()) {
 
                 if($admin = Admin::find(Auth::guard('admin')->user()->id)) {
-
-                    $admin->timezone = $request->has('timezone') ? $request->timezone : '';
 
                     $admin->save();
 
